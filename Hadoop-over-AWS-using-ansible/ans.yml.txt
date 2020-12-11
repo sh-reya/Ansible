@@ -1,0 +1,65 @@
+- hosts: all
+  tasks:
+  - name: "Sending jdk to the target node"
+    copy:
+            dest: "/root"
+            src:  "/home/ec2-user/jdk-8u171-linux-x64.rpm"
+  - name: "Sending  hadoop to the target node"
+    copy:
+            dest: "/root"
+            src: "/home/ec2-user/hadoop-1.2.1-1.x86_64.rpm"
+
+
+  - name: "installing JDK"
+    command: "rpm -i jdk-8u171-linux-x64.rpm"
+
+  - name: "Installing hadoop"
+    command: "rpm -i hadoop-1.2.1-1.x86_64.rpm --force"
+#Setting up the namenode
+- hosts: master
+  vars_prompt:
+          - name: "master"
+            private: no
+            prompt: "Enter the name of the directory"
+  tasks:
+  - name: "Setting up hdfs-site.xml"
+    template:
+            dest: "/etc/hadoop/hdfs-site.xml"
+            src: "/root/t11/masterhdfs.xml"
+  - name: "Setting up core-site.xml"
+    template:
+            dest: "/etc/hadoop/core-site.xml"
+            src: "/root/t11/mastercore.xml"
+#Setting yp the datanode
+- hosts: slave
+  vars_prompt:
+          - name: "slave"
+            private: no
+            prompt: "Enter the name of the directory"
+  tasks:
+  - name: "hdfs in slave"
+    template:
+            dest: "etc/hadoop/hdfs-site.xml"
+            src: "/root/t11/slavecore.xml"
+  - name: "core in slave"
+    template:
+            dest: "etc/hadoop/core-site.xml"
+            src: "/root/t11/slavecore.xml"
+#Starting the services of the namenode
+- hosts: master
+  vars_prompt:
+          - name: "master"
+            private: no
+  tasks:
+  - name: "Starting the master services"
+    command: "hadoop-daemon.sh start namenode"
+#Starting the services of the datanode
+- hosts: slave
+  vars_prompt:
+          - name: "slave"
+            private: no
+
+  tasks:
+  - name: "Starting the slave services"
+    command: "hadoop-daemon.sh start datanode"
+

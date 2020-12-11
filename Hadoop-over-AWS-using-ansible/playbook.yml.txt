@@ -1,0 +1,76 @@
+- hosts: all
+  tasks:
+  - name: "Sending jdk to the target node"
+    copy:
+            dest: "/root"
+            src:  "/home/ec2-user/jdk-8u171-linux-x64.rpm"
+  - name: "Sending  hadoop to the target node"
+    copy:
+            dest: "/root"
+            src: "/home/ec2-user/hadoop-1.2.1-1.x86_64.rpm"
+
+
+  - name: "installing JDK"
+    command: "rpm -i jdk-8u171-linux-x64.rpm"
+
+  - name: "Installing hadoop"
+    command: "rpm -i hadoop-1.2.1-1.x86_64.rpm --force"
+#Setting up the namenode
+- hosts: master
+
+
+
+  tasks:
+  - name: "Creating nn directory"
+    file:
+            state: directory
+            path: "/nn"
+  - name: "Setting up hdfs-site.xml"
+    template:
+            dest: "/etc/hadoop/hdfs-site.xml"
+            src: "masterhdfs.xml"
+  - name: "Setting up core-site.xml"
+    template:
+            dest: "/etc/hadoop/core-site.xml"
+            src: "mastercore.xml"
+#Setting yp the datanode
+- hosts: slave
+
+
+
+
+  tasks:
+  - name: "Creating dn directory"
+    file:
+            state: directory
+            path: "/dn"
+  - name: "hdfs in slave"
+    template:
+            dest: "/etc/hadoop/hdfs-site.xml"
+            src: "slavehdfs.xml"
+    - name: "core in slave"
+    template:
+            dest: "/etc/hadoop/core-site.xml"
+            src: "slavecore.xml"
+#Starting the services of the namenode
+- hosts: master
+
+
+
+  tasks:
+          # - name: "Format the master before starting services"
+          # command: "hadoop namenode -format"
+  - name: "Starting the master services"
+    command: "hadoop-daemon.sh start namenode"
+#Starting the services of the datanode
+- hosts: slave
+
+
+
+
+  tasks:
+  - name: "Stop the datanode"
+    command: "hadoop-daemon.sh stop datanode"
+  - name: "Starting the slave services"
+    command: "hadoop-daemon.sh start datanode"
+

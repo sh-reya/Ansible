@@ -1,0 +1,42 @@
+Basics of Ansible
+Module-1
+
+We are using two OS, both redhat version-8
+
+
+Control Node: Where we write code
+Target Node:Where we configure. Also known as the Managed Node
+
+Ansible is agentless, i.e, we install it on 1 OS and it is capable to work on other OS.
+
+Commands to set up ansible:
+
+On your Control Node:
+
+1.pip3 install ansible
+2. ansible all --list-hosts
+
+Currently, there is no inventory, we shall create one.
+
+3.vim ip.txt
+192.168.43.144 ansible_user=root ansible_ssh_pass=shreya ansible_connection=ssh
+(Write ip of your Target Node)
+
+
+4. mkdir /etc/ansible
+5. vim /etc/ansible/ansible.cfg
+
+[defaults]
+inventory= /root/ip.txt
+
+Control Node is ready.
+
+Go to the target node and stop httpd command. Check its status to confirm if it is inactive.
+
+In Control Node, 
+dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+
+
+6. ansible all -m service -a "name=httpd state=started"
+
+Go to the Target Node and check status of httpd, it would be active.
