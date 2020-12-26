@@ -1,0 +1,11 @@
+when we launch a container, we get an IP that is different from the IP of the OS that we r using. The point is, how shall we get the IP and what IP should be written in the inventory so that launching is successfully done?
+For that, we use the concept of patting. During the launch of docker container, we use patting and provide a port number to the https server running on the container. Now, we don’t need the IP of the container. We shall provide the Ip of the os in the inventory and while opening the file, we shall just provide the port number that we have provided.
+We will land to the webpage, which is in the html folder of the container.
+
+
+The command to use patting while launching a docker container is:
+
+docker run –it --name w3 –p 2222:80 centos:latest
+
+It will launch a centos container named w3. Whenever we provide port number 2222 in the browser, we shall land to the port number 80 of the container.
+This concept of netting with respect to port is known as patting. -p stands for patting.
