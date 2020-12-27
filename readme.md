@@ -14,6 +14,7 @@
 - [x] Ansible Handlers and Notify
 - [x] Ansible Hadoop AWS
 - [x] Patting in Docker using Ansible
+- [x] Load Balancer
   #  👨🏻‍💻
 
 
