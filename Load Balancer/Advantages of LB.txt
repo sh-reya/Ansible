@@ -1,0 +1,7 @@
+Advantages of Load balancer:
+
+The program running to serve on behalf of another is SERVER PROXY. Here we are using HA PROXY which is behaving as a frontend. It has a feature Load balancer which balances the load and distributes the load to multiple same webserver hosted. The process by which is distributes the load is known as ROUND ROBIN. Reverse proxy is the process when the hosted server gives the response back to frontend (haproxy) , it prevents the direct interaction between client and the server using haproxy
+Advantages to using Load Balancer are that:
+1.	As we don’t let the client to directly interact with the server, this concept is highly secure
+2.	If any of the back-end server fails, client won’t have to go to the bad experience of application crash. This is because, we have just provided a front-end ip, and we have a lot of back-end servers running in the background. If any one of the backend server fails, user will get automatically to another server without any lagging.
+This is very good for the reputation of the company.
