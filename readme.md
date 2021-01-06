@@ -15,6 +15,7 @@
 - [x] Ansible Hadoop AWS
 - [x] Patting in Docker using Ansible
 - [x] Load Balancer
+- [x] Roles in Ansible
   #  👨🏻‍💻
 
 
